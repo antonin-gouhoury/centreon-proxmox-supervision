@@ -1,0 +1,23 @@
+# Configuration msmtp pour l'envoi d'alertes Centreon via Gmail
+#
+# Emplacement   : /etc/msmtprc
+# Permissions   : chmod 600 /etc/msmtprc (le fichier contient un mot de passe)
+#
+# Le mot de passe doit être un mot de passe d'application Gmail
+# (généré dans Compte Google > Sécurité > Mots de passe d'application).
+# Ne PAS utiliser le mot de passe principal du compte.
+
+defaults
+auth on
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile /var/log/msmtp.log
+
+account gmail
+host smtp.gmail.com
+port 587
+from <expediteur>@gmail.com
+user <expediteur>@gmail.com
+password <mot_de_passe_application_16_chars>
+
+account default : gmail

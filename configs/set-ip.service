@@ -1,0 +1,24 @@
+# Service systemd : set-ip.service
+#
+# Solution adoptée pour pallier l'absence de NetworkManager et de network-scripts
+# fonctionnels sur la VM Centreon (Debian 12) après migration depuis VirtualBox
+# vers Proxmox. Ce service applique l'IP statique et la route par défaut au
+# démarrage du système.
+#
+# Emplacement : /etc/systemd/system/set-ip.service
+# Activation  : systemctl daemon-reload && systemctl enable set-ip.service
+#
+# Les valeurs IP et nom d'interface ci-dessous sont des placeholders à adapter.
+
+[Unit]
+Description=Set static IP for ens18
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/ip addr add 192.168.A.<X>/24 dev ens18
+ExecStart=/sbin/ip route add default via 192.168.A.254
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
